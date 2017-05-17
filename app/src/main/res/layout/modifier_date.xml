@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.ngoni.choixmenu.ChangeDates"
+    tools:showIn="@layout/activity_change_dates">
+
+    <TextView
+        android:id="@+id/idtextDates"
+        android:layout_width="320dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="28dp"
+        android:text="Saisir la nouvelle date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="72dp" />
+
+    <Button
+        android:id="@+id/idbuttonDates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="31dp"
+        android:layout_marginStart="23dp"
+        android:onClick="sendDate"
+        android:text="Chercher"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/idDates"
+        android:layout_marginBottom="120dp" />
+
+    <EditText
+        android:id="@+id/idDates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="37dp"
+        android:ems="10"
+        android:inputType="date"
+        android:hint="          yyyy-mm-dd"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="111dp"
+        android:layout_below="@+id/idtextDates"
+        android:layout_alignStart="@+id/idtextDates" />
+</RelativeLayout>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ngoni.choixmenu.SelectMenu">
+
+    <TextView
+        android:id="@+id/idtext"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="42dp"
+        android:text="Chose your first menu"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/idtext2"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Chose your second meal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/radioGroup1"
+        android:layout_alignRight="@+id/radioGroup1"
+        android:layout_below="@+id/idtext2">
+
+        <RadioButton
+            android:id="@+id/radio3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/idtext2"
+            android:layout_centerHorizontal="false"
+            android:layout_marginTop="37dp"
+            android:text="Chicken , Chips" />
+
+        <RadioButton
+            android:id="@+id/radio4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/radio3"
+            android:layout_alignStart="@+id/radio3"
+            android:layout_below="@+id/radio3"
+            android:layout_marginTop="24dp"
+            android:text="Rice , Beef" />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/idtext"
+        android:layout_centerHorizontal="true">
+
+        <RadioButton
+            android:id="@+id/radio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/radio2"
+            android:layout_alignStart="@+id/radio2"
+            android:layout_below="@+id/radioGroup1"
+            android:layout_marginTop="21dp"
+            android:text="Mafen ,Juice" />
+
+        <RadioButton
+            android:id="@+id/radio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/radio3"
+            android:layout_alignStart="@+id/radio3"
+            android:layout_below="@+id/radio1"
+            android:layout_marginTop="31dp"
+            android:text="Seafood, Juice" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/idbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="23dp"
+        android:onClick="submitFood"
+        android:textAllCaps="false"
+        android:text="Envoyer"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
