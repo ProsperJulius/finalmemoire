@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_k"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_e"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_d" />
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_a"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_f"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_e" />
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_g"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_f" />
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button__h"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_g" />
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_c"
+
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_a" />
+
+    <Button
+        android:text=""
+        android:textAlignment="viewStart"
+        android:layout_width="48dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_d"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/button_c" />
+</RelativeLayout>

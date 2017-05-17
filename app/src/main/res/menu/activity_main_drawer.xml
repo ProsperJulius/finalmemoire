@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/createaccount"
+             android:icon="@mipmap/ic_person_add_black_24dp"
+              android:title="@string/create_accoun"
+            />
+        <item android:id="@+id/about_space" android:title=""/>
+
+        <item   android:id="@+id/signin"
+            android:icon="@mipmap/ic_account_box_black_24dp"
+            android:title="Sign In"
+            />
+        <item android:id="@+id/about_sp" android:title=""/>
+
+       <item android:id="@+id/search"
+           android:icon="@mipmap/ic_search_black_24dp"
+           android:title="@string/chercher_vo"/>
+        <item android:id="@+id/about_ps" android:title=""/>
+
+        <item android:id="@+id/about"
+            android:icon="@mipmap/ic_info_black_24dp"
+            android:title="@string/about"/>
+
+
+    </group>
+
+
+</menu>

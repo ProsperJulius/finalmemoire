@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SafeAirlines</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="create_accoun">Create Account</string>
+    <string name="reservation_vol">Reservation Vol</string>
+    <string name="chercher_vol">Chercher Vol</string>
+    <string name="payer">Payer</string>
+    <string name="gestion_Re">Gestion Reservation</string>
+    <string name="title_activity_create_account">CreateAccount</string>
+    <string name="chercher_vo">Chercher Vol</string>
+    <string name="about">About</string>
+    <string name="email_here">email here</string>
+    <string name="title_activity_operations">Operations</string>
+    <string name="title_activity_gestion">Gestion</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_payer">Payer</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_reserver">Reserver</string>
+    <string name="title_activity_rechercher">Rechercher</string>
+</resources>

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/custom_lay">
+
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/air1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="21dp" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/air2"
+        android:layout_below="@+id/air1"
+        android:layout_alignStart="@+id/air1" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/date_depart_custom"
+        android:layout_below="@+id/air2"
+        android:layout_alignStart="@+id/air2" />
+
+    <TextView
+        android:text="aeroport d'arriver"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textView9"
+        android:layout_alignBaseline="@+id/air2"
+        android:layout_alignBottom="@+id/air2"
+        android:layout_toStartOf="@+id/air2" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textView4"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView9"
+        android:text="aeroport de depart" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textView14"
+        android:layout_alignBaseline="@+id/textView11"
+        android:layout_alignBottom="@+id/textView11"
+        android:layout_toStartOf="@+id/date_depart_custom"
+        android:text="date de retour" />
+
+    <TextView
+        android:text="date d'arriver"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textView16"
+        android:layout_below="@+id/textView11"
+        android:layout_alignStart="@+id/textView14" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textView11"
+        android:layout_below="@+id/textView9"
+        android:layout_alignStart="@+id/textView14" />
+
+    <TextView
+        android:text="date de retour"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/date_arrive_custom"
+        android:layout_alignBaseline="@+id/textView16"
+        android:layout_alignBottom="@+id/textView16"
+        android:layout_toEndOf="@+id/textView14" />
+
+    <TextView
+        android:text="date de retour"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewdate_retour"
+        android:layout_below="@+id/textView16"
+        android:layout_alignStart="@+id/textView16" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewdate_return"
+        android:layout_below="@+id/date_arrive_custom"
+        android:layout_alignEnd="@+id/date_arrive_custom" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textView13"
+        android:text="Heure de depart"
+        android:layout_below="@+id/textViewdate_retour"
+        android:layout_alignStart="@+id/textViewdate_retour" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/custom_heure"
+        tools:text="on vous informe par email"
+        android:layout_alignBaseline="@+id/textView13"
+        android:layout_alignBottom="@+id/textView13"
+        android:layout_toEndOf="@+id/textView13" />
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textView18"
+        android:text="Heure d'arriver"
+        android:layout_below="@+id/custom_heure"
+        android:layout_alignStart="@+id/textView13" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/custom_heure_da"
+        tools:text="on vous informe par email"
+        android:layout_below="@+id/custom_heure"
+        android:layout_toEndOf="@+id/textView13" />
+
+    <TextView
+        android:text="premiere classe"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewcostspre"
+        android:layout_below="@+id/textView18"
+        android:layout_alignStart="@+id/textView18"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewcostsfirstclasse"
+        android:layout_alignBaseline="@+id/textViewcostspre"
+        android:layout_alignBottom="@+id/textViewcostspre"
+        android:layout_toEndOf="@+id/textViewcostspre" />
+
+    <TextView
+        android:text="affaires classe"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewbusiness"
+        android:layout_below="@+id/textViewcostspre"
+        android:layout_alignStart="@+id/textViewcostspre" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewbusinnesclass"
+        android:layout_below="@+id/textViewcostspre"
+        android:layout_toEndOf="@+id/textViewbusiness" />
+
+    <TextView
+        android:text="economique classe"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewdd"
+        android:layout_below="@+id/textViewbusinnesclass"
+        android:layout_alignStart="@+id/textViewbusiness" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="155dp"
+        android:layout_height="40dp"
+        android:id="@+id/textViewclasseconomy"
+        android:layout_below="@+id/textViewbusinnesclass"
+        android:layout_toEndOf="@+id/textViewdd" />
+
+</RelativeLayout>
