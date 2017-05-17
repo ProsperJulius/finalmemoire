@@ -1,0 +1,553 @@
+package com.example.prosper.safeairlines.webservices;
+
+/**
+ * Created by prosper on 17/5/2017.
+ */
+
+
+import java.sql.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class ClientConnection {
+
+    public ClientConnection() {
+
+    }
+
+    public int clientReserver(int idclient, int idvol,double cout, String classereservation, String typereservation)
+            throws SQLException {
+
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        int res = 0;
+        int count = 0;
+        PreparedStatement statement;
+
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+            Statement st = conn.createStatement();
+
+            r = st.executeQuery(
+                    "select * from reservation where id_client=\"" + idclient + "\"" + "and id_vol=\"" + idvol + "\"");
+
+            if (!r.next()) {
+
+                String query = "insert into reservation(date_reservation,id_client,id_vol,type_reservation,classe_reserv,cout,paiement)"
+                        + " values(curdate()," + idclient + "," + idvol + ",\"" + typereservation + "\",\""
+                        + classereservation + "\","+cout+",\"no\")";
+                count = st.executeUpdate(query);
+
+                if (count == 1) {
+                    r = st.executeQuery("select id_reservation from reservation where id_client=\"" + idclient + "\""
+                            + "and id_vol=\"" + idvol + "\"");
+                    if (r.next())
+                        ;
+                    res = r.getInt("id_reservation");
+
+                }
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        conn.close();
+
+        return res;
+
+    }
+
+    public ArrayList<Vol> chercherVol(String airone, String airtwo, Date dateDepart) throws SQLException {
+
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        ArrayList<Vol> response = new ArrayList<Vol>();
+
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+            System.out.println(dateDepart);
+            Statement st = conn.createStatement();
+            System.out.println("herek" + airone);
+            r = st.executeQuery("select * from vol where aeroport_de=\"" + airone + "\" and aeroport_da=\"" + airtwo
+                    + "\" or date_de=\"" + dateDepart + "\"");
+
+            while (r.next()) {
+
+                Vol vol = new Vol(r.getInt("id_vol"), r.getDouble("tarrif"), r.getString("aeroport_de"),
+                        r.getString("aeroport_da"), r.getString("type_vol"), r.getDate("date_de"), r.getDate("date_da"),
+                        null, r.getTime("heure_de"), r.getTime("heure_da"));
+                response.add(vol);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        conn.close();
+        return response;
+    }
+
+    public ClientBean verifyUser(String email, String password) throws SQLException {
+
+        ClientBean bean = new ClientBean();
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+
+        conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+        Statement st = conn.createStatement();
+        r = st.executeQuery("select * from clients where email=\"" + email + "\" and password=\"" + password + "\"");
+        System.out.println("your j");
+        if (r.next()) {
+
+            bean = new ClientBean(r.getInt("id_client"), r.getString("nom"), r.getString("prenom"),
+                    r.getString("email"), r.getString("password"), r.getInt("points"),r.getDouble("solde"));
+            System.out.print(r.getInt("points"));
+
+        }
+
+
+        return bean;
+    }
+
+
+    public boolean updateClientPoints(int id_client,int id_reservation,double points) {
+
+        ClientBean bean = new ClientBean();
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+            Statement st = conn.createStatement();
+            String query="update clients set points=\""+points+"\" where id_client=\""+id_client+"\"";
+            String querytwo="update reservation set paiement=\"yes\" where id_reservation=\""+id_reservation+"\"";
+            count=st.executeUpdate(query);
+            if (count!=-1) {
+
+                count=st.executeUpdate(querytwo);
+                if(count!=-1)
+                    res=true;
+
+            }
+        } catch (SQLException e) {
+        }
+
+        return res;
+    }
+    public boolean updateClientRepas(int id_reservation,String repas) {
+
+        ClientBean bean = new ClientBean();
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+            Statement st = conn.createStatement();
+
+            String querytwo="update reservation set repas=\""+repas+"\" where id_reservation=\""+id_reservation+"\"";
+            count=st.executeUpdate(querytwo);
+            if (count!=-1) {
+
+
+
+                res=true;
+
+            }
+        } catch (SQLException e) {
+        }
+
+        return res;
+    }
+    public boolean updateClientSolde(int id_client,int id_reservation,double solde) {
+
+        ClientBean bean = new ClientBean();
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+            Statement st = conn.createStatement();
+            String query="update clients set solde=\""+solde+"\" where id_client=\""+id_client+"\"";
+            String querytwo="update reservation set paiement=\"yes\" where id_reservation=\""+id_reservation+"\"";
+            count=st.executeUpdate(query);
+            if (count!=-1) {
+
+                count=st.executeUpdate(querytwo);
+                if(count!=-1)
+                    res=true;
+
+            }
+        } catch (SQLException e) {
+        }
+
+        return res;
+    }
+    public boolean deleteReservation(int id_reservation) {
+
+        ClientBean bean = new ClientBean();
+        Connection conn = null;
+
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+            Statement st = conn.createStatement();
+            int r = st.executeUpdate("delete from reservation where id_reservation=\"" + id_reservation + "\"");
+
+            if (r == 1) {
+
+                res = true;
+            }
+        } catch (SQLException e) {
+        }
+
+        return res;
+
+    }
+
+    public reserv_vol verifyReservation(int id_client, int id_reservation) {
+
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        //reserv_vol res =new rese
+        reserv_vol res=new reserv_vol();
+        int count = 0;
+        try {
+
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+            Statement st = conn.createStatement();
+            r = st.executeQuery("select * from reservation where id_reservation=\"" + id_reservation
+                    + "\" and id_client=\"" + id_client + "\"");
+
+            if (r.next()) {
+                double cout=r.getDouble("cout");
+                int id_vol=r.getInt("id_vol");
+                String type=r.getString("classe_reserv");
+                System.out.println("wangu_dajusa"+id_vol+cout);
+                ResultSet rr=st.executeQuery("select * from vol where id_vol=\""+id_vol+"\";");
+                if(rr.next())
+                    res=new reserv_vol(id_vol,cout,rr.getString("aeroport_de"),rr.getString("aeroport_da"),rr.getDate("date_de"),rr.getDate("date_da"),rr.getTime("heure_de"),rr.getTime("heure_da"),type);
+
+                System.out.println(rr.getString("aeroport_de")+cout+"the j");
+
+
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return res;
+    }
+
+    public ArrayList<Vol> chercherVolRetour(String airone, String airtwo, Date dateDepart, Date dateretour)
+            throws SQLException {
+
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        ArrayList<Vol> response = new ArrayList<Vol>();
+
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+            System.out.println(dateDepart);
+            Statement st = conn.createStatement();
+            System.out.println("herek" + airone);
+            r = st.executeQuery("select * from vol where aeroport_de=\"" + airone + "\" and aeroport_da=\"" + airtwo
+                    + "\" and date_de=\"" + dateDepart + "\" and date_retour=\"" + dateretour
+                    + "\" and type_vol=\"retour\"");
+            System.out.println("herek" + airone + airtwo);
+            while (r.next()) {
+
+                Vol vol = new Vol(r.getInt("id_vol"), r.getDouble("tarrif"), r.getString("aeroport_de"),
+                        r.getString("aeroport_da"), r.getString("type_vol"), r.getDate("date_de"), r.getDate("date_da"),
+                        r.getDate("date_retour"), r.getTime("heure_de"), r.getTime("heure_da"));
+                response.add(vol);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        conn.close();
+        return response;
+    }
+
+
+    public ArrayList<String> airportsGet() throws SQLException{
+
+        ArrayList<String> airports=new ArrayList<String>();
+        Statement statement;
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+
+        conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+        statement=conn.createStatement();
+
+        r=statement.executeQuery("select aeroport_de,aeroport_da from vol ");
+
+        while (r.next()) {
+
+            airports.add(r.getString("aeroport_de"));
+            airports.add(r.getString("aeroport_da"));
+
+        }
+
+
+        return  airports;
+
+    }
+
+
+
+    public ArrayList<String> getSeats(String type) throws SQLException{
+
+        ArrayList<String> seats=new ArrayList<String>();
+        Statement statement;
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+
+        conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+        statement=conn.createStatement();
+
+        r=statement.executeQuery("select siege from reservation where classe_reserv=\""+type+"\"");
+
+        while (r.next()) {
+
+            seats.add(r.getString("siege"));
+            System.out.println(r.getString("siege"));
+
+
+        }
+
+
+        return  seats;
+
+    }
+
+    public boolean addClient(String nom, String prenom, String email, String password) throws SQLException {
+
+        PreparedStatement state = null;
+        Employe emp = null;
+        Connection conn = null;
+        ResultSet r = null;
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+            String query = "INSERT INTO clients" + "(nom,prenom,email,password,points) VALUES" + "(?,?,?,?,?)";
+
+            Statement st = conn.createStatement();
+            r = st.executeQuery("select * from clients where email=\"" + email + "\"");
+            System.out.print("heremqqqq");
+            if (!r.next()) {
+                state = conn.prepareStatement(query);
+                state.setString(1, nom);
+                state.setString(2, prenom);
+                state.setString(3, email);
+                state.setString(4, password);
+                state.setInt(5, 0);
+                count = state.executeUpdate();
+
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        if (count == 1) {
+
+            res = true;
+        }
+        return res;
+
+    }
+    public boolean updateSiege(int id_reservation,String siege) {
+
+        ClientBean bean = new ClientBean();
+        Connection conn = null;
+
+        String mdp = "";
+        boolean res = false;
+        int count = 0;
+        try {
+
+            // The newInstance() call is a work around for some
+            // broken Java implementations
+
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        } catch (Exception ex) {
+            // handle the error
+        }
+
+        try {
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost/project?verifyServerCertificate=false&useSSL=true", "root", "prosperjusa2");
+
+            Statement st = conn.createStatement();
+            int r = st.executeUpdate("update reservation set siege=\""+siege+"\"where id_reservation=\""+id_reservation+"\"");
+
+            if (r == 1) {
+
+                res = true;
+            }
+        } catch (SQLException e) {
+        }
+
+        return res;
+
+    }
+
+
+
+}
+
