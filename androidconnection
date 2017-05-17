@@ -1,0 +1,271 @@
+package com.example.prosper.safeairlines.webservices;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+
+import projet.ClientConnection;
+import projet.ClientBean;
+import java.util.ArrayList;
+import projet.Vol;
+import projet.reserv_vol;
+
+@WebServlet("/androidConnection")
+public class androidConnection extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    public androidConnection() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String form="";
+
+        form = request.getParameter("formname");
+        switch (form) {
+            case "point":
+                int id_c = Integer.parseInt(request.getParameter("id_client"));
+                int id_r = Integer.parseInt(request.getParameter("id_reservation"));
+                double points = Double.parseDouble(request.getParameter("points"));
+                ClientConnection connexion = new ClientConnection();
+                boolean mrj_results = connexion.updateClientPoints(id_c, id_r, points);
+                // Gson mrgson= new GsonBuilder().create();
+                String mr_string = "{\"result\":\"" + mrj_results + "\"}";
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(mr_string);
+                break;
+
+            case "insert":
+                ClientConnection clientconn = new ClientConnection();
+                try {
+                    boolean result = clientconn.addClient(request.getParameter("name"), request.getParameter("prenom"),
+                            request.getParameter("email"), request.getParameter("pass"));
+
+                    String jsonString = "{\"result\":\"" + result + "\"}";
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(jsonString);
+
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                break;
+            case "user":
+                ClientConnection client = new ClientConnection();
+                ClientBean clientbean = null;
+                try {
+                    clientbean = client.verifyUser(request.getParameter("email"), request.getParameter("password"));
+                } catch (SQLException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
+
+                GsonBuilder gson = new GsonBuilder();
+                Gson g = gson.create();
+                String jsonString = g.toJson(clientbean);
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(jsonString);
+
+                break;
+            case "chercher":
+                ClientConnection clientreservation = new ClientConnection();
+
+                java.util.Date date = null;
+                try {
+                    String datestring = request.getParameter("date_depart");
+                    SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
+                    date = simple.parse(datestring);
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                java.sql.Date datesql = new java.sql.Date(date.getTime());
+
+                ArrayList<Vol> responsechecher = null;
+                try {
+                    responsechecher = clientreservation.chercherVol(request.getParameter("airportone"),
+                            request.getParameter("airporttwo"), datesql);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                Gson gsonn = new GsonBuilder().create();
+
+                JsonArray js = gsonn.toJsonTree(responsechecher).getAsJsonArray();
+
+                String jss = js.toString();
+                jss = "{\"vols\":" + jss + "}";
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(jss);
+                break;
+            case "airports":
+                ClientConnection airports=new ClientConnection();
+                ArrayList<String> aeroports = null;
+                try {
+                    aeroports = airports.airportsGet();
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                Gson google = new GsonBuilder().create();
+                JsonArray jssss = google.toJsonTree(aeroports).getAsJsonArray();
+
+                String mr_answer = jssss.toString();
+                mr_answer = "{\"vols\":" + mr_answer + "}";
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(mr_answer);
+                break;
+
+
+            case "chercherretour":
+                ClientConnection clientreservation_retour = new ClientConnection();
+
+                java.util.Date dateone = null;
+                java.util.Date datetwo = null;
+                try {
+                    String datestring = request.getParameter("date_depart");
+                    SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
+                    dateone = simple.parse(datestring);
+                    String datesstring = request.getParameter("date_retour");
+                    datetwo = simple.parse(datesstring);
+
+                } catch (ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                java.sql.Date datesqll = new java.sql.Date(dateone.getTime());
+                java.sql.Date ssql = new java.sql.Date(datetwo.getTime());
+
+                ArrayList<Vol> responsech = null;
+                try {
+                    responsech = clientreservation_retour.chercherVolRetour(request.getParameter("airportone"),
+                            request.getParameter("airporttwo"), datesqll, ssql);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+
+                    e.printStackTrace();
+                }
+
+                Gson gsonnnn = new GsonBuilder().create();
+                JsonArray jsss = gsonnnn.toJsonTree(responsech).getAsJsonArray();
+
+                String answ = jsss.toString();
+                answ = "{\"vols\":" + answ + "}";
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(answ);
+                break;
+
+            case "reserver":
+
+                ClientConnection client_conn = new ClientConnection();
+
+                int id_client = Integer.parseInt(request.getParameter("client"));
+                int id_vol = Integer.parseInt(request.getParameter("vol"));
+                double id_paiement = Double.parseDouble(request.getParameter("id_paiement"));
+
+                try {
+
+                    int reponse = client_conn.clientReserver(id_client, id_vol, id_paiement, request.getParameter("cres"),
+                            request.getParameter("tres"));
+
+                    String jsonstring = "{\"reponse\":\"" + reponse + "\"}";
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(jsonstring);
+
+                } catch (SQLException e) {
+
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                break;
+            case "isreserved":
+                ClientConnection client_res = new ClientConnection();
+                System.out.println("wangu_da");
+                int id_customer = Integer.parseInt(request.getParameter("id_client"));
+                int id_reservation = Integer.parseInt(request.getParameter("id_reservation"));
+
+                reserv_vol resultat = client_res.verifyReservation(id_customer, id_reservation);
+
+                String expectedd = "{\"result\":\"" + resultat + "\"}";
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(expectedd);
+                break;
+
+            case "annuller":
+                int id_ress = Integer.parseInt(request.getParameter("id_reservation"));
+                ClientConnection annuller = new ClientConnection();
+                boolean onannu = annuller.deleteReservation(id_ress);
+
+                String onforward = "{\"result\":\"" + onannu + "\"}";
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(onforward);
+                break;
+
+            case "sold":
+                int id_cli = Integer.parseInt(request.getParameter("id_client"));
+
+                int id_rr = Integer.parseInt(request.getParameter("id_reservation"));
+                double solde = Double.parseDouble(request.getParameter("solde"));
+                ClientConnection concli = new ClientConnection();
+                boolean mrpj = concli.updateClientSolde(id_cli, id_rr, solde);
+                String mr_pj = "{\"result\":\"" + mrpj + "\"}";
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(mr_pj);
+                break;
+            case "repas":
+                int id_mrres = Integer.parseInt(request.getParameter("id_reservation"));
+                ClientConnection mr_conn = new ClientConnection();
+                boolean result_repas = mr_conn.updateClientRepas(id_mrres, request.getParameter("repas"));
+                String mr_repas = "{\"result\":\"" + result_repas + "\"}";
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(mr_repas);
+                break;
+            case "newdate":
+
+
+                break;
+
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        doGet(request, response);
+    }
+
+}
