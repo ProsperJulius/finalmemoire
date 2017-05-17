@@ -129,12 +129,18 @@ public class Gestion extends AppCompatActivity {
         public Fragment getItem(int position) {
           switch(position){
               case 0:
-                  TabAnnuler tab1=new TabAnnuler();
-                  return tab1;
+                  Tabrepas repas=new Tabrepas();
+                  return repas;
               case 1:
                   TabSiege tab2=new TabSiege();
                   return tab2;
+              case 3:
+                  TabAnnuler tab1=new TabAnnuler();
 
+                  return tab1;
+              case 4:
+                  TabModifier mod=new TabModifier();
+                  return mod;
           }
             return null;
         }

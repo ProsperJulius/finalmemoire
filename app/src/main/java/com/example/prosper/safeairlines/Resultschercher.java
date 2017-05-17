@@ -30,7 +30,7 @@ import static android.support.v7.appcompat.R.styleable.AlertDialog;
 
 public class Resultschercher extends AppCompatActivity implements Serializable {
 
-   double paiement;
+    double paiement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +38,13 @@ public class Resultschercher extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_resultschercher);
         ArrayList<Vol> results = (ArrayList<Vol>) getIntent().getSerializableExtra("myarray");
 
-         Vol vol=results.get(0);
-        paiement=vol.getTarrif();
+        Vol vol = results.get(0);
+        paiement = vol.getTarrif();
 
 
         ListView listView = (ListView) findViewById(R.id.list_view_resutls);
         ArrayAdapter arrayAdapter;
-        arrayAdapter = new MycustomListview(this,results);
+        arrayAdapter = new MycustomListview(this, results);
         arrayAdapter.notifyDataSetChanged();
         listView.setAdapter(arrayAdapter);
 
@@ -65,9 +65,7 @@ public class Resultschercher extends AppCompatActivity implements Serializable {
         );
 
 
-
     }
-
 
 
     private class SendData extends AsyncTask<Void, Void, Integer> {
@@ -110,7 +108,7 @@ public class Resultschercher extends AppCompatActivity implements Serializable {
 
         @Override
         protected Integer doInBackground(Void... params) {
-            return Base.insertReservation(id_client, id_vol,paiement, classereserv);
+            return Base.insertReservation(id_client, id_vol, paiement, classereserv);
 
         }
 
@@ -124,7 +122,7 @@ public class Resultschercher extends AppCompatActivity implements Serializable {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(Resultschercher.this, R.style.MyAlertDialogStyle);
                 builder.setTitle("Numero de Reservation");
-                builder.setMessage("Votre numero de Reservation est  " + aBoolean);
+                builder.setMessage("Votre numero de Reservation est  " + aBoolean + "\n" + "on a envoye toutes les informations concernant votre reservation dans votre email");
 
 
                 builder.setPositiveButton("dismiss", new DialogInterface.OnClickListener() {
@@ -195,7 +193,7 @@ public class Resultschercher extends AppCompatActivity implements Serializable {
             AlertDialog.Builder builder = new AlertDialog.Builder(Resultschercher.this, R.style.MyAlertDialogStyle);
             builder.setTitle("Reservation du vol");
 
-            final String classe_reservation[] = {"Premiere classe","classe affaires", " classe economique"};
+            final String classe_reservation[] = {"Premiere classe", "classe affaires", " classe economique"};
 
             builder.setSingleChoiceItems(classe_reservation, -1, new DialogInterface.OnClickListener() {
 
@@ -206,12 +204,12 @@ public class Resultschercher extends AppCompatActivity implements Serializable {
                         classereserv = "classepremiere";
 
 
-                    } else if(which==1){
+                    } else if (which == 1) {
 
                         classereserv = "classeaffaire";
 
-                    }else if(which==2){
-                        classereserv="classeeconomique";
+                    } else if (which == 2) {
+                        classereserv = "classeeconomique";
                     }
 
 
