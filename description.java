@@ -8,4 +8,7 @@ public class description{
   public void introspection(){
   System.out.println("Introspection baby girl");
   }
+  private class innerClassDescription{
+    
+  }
 }
